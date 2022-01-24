@@ -55,7 +55,7 @@ enemyX_spawns = [105, 230, 355, 480]
 enemyImg = [car1,car2,amb,taxi]
 enemyX = []
 enemyY = -220
-enemyY_change = 10 #difficulty 
+enemyY_change = 0 #difficulty (it is zero befor the start button is pressed)
 numOfEnemies = 1
 
 for i in range(numOfEnemies):
@@ -70,9 +70,9 @@ def enemyDraw(image, x, y):
 
 
 # Creating Buttons
-startBtn = button.Button(50, 100, startImg, 0.3)
-exitBtn = button.Button(50, 200, exitImg, 0.3)
-colorBtn = button.Button(50,300,changeColorImg, 0.3)
+startBtn = button.Button(50, 100, startImg, 0.4)
+exitBtn = button.Button(50, 300, exitImg, 0.4)
+colorBtn = button.Button(50,200,changeColorImg, 0.4)
 car = 0     
 
 # Choosing a random enemy to spawn first 
@@ -112,9 +112,12 @@ while running:
 
         i += 5
 
-
+        # Starting the game when the button start is pressed
         if startBtn.draw(win):
-                print("Start")
+                enemyY_change = 7
+                startBtn.rect.topleft = (-100,-100)
+                colorBtn.rect.topleft = (-100,-100)
+                exitBtn.rect.topleft = (-100,-100)
                 
         
         enemyDraw(enemy, enemy_x,enemy_y)
