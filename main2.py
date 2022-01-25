@@ -1,4 +1,3 @@
-from cProfile import label
 import pygame
 import button
 import random
@@ -301,7 +300,7 @@ while running:
                 win.blit(endPic,(0,0))
 
         
-        '''# CPU PLAY ---- uncomment this code to let the computer play perfectly -----
+        # CPU PLAY ---- uncomment this code to let the computer play perfectly -----
         if enemy_x == 105 and x == 105:
                 x = 230
         elif enemy_x == 230 and x == 230:
@@ -310,7 +309,7 @@ while running:
                 x = random.choice([480,230])
         elif enemy_x == 480 and x == 480:
                 x = 355
-'''
+
 
         levelDisplay(labelsGone)
         scoreDisplay(labelsGone)
