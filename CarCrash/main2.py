@@ -110,10 +110,15 @@ enemy = random.choice(enemyImgRes) # random enemy car
 enemy_x = random.choice(enemyX_spawns) # random spawn x coordinate
 enemy_y = enemyY # fixed y spawn 
 
+# Ending picture
+endPicNormal = pygame.image.load("CarCrash/resources/flashyCar.png")
+endPic = pygame.transform.scale(endPicNormal,(winWidth,winHeight))
+
 
 bgMove = 0 # how fast the background is running
 
 over = False
+gameWin = False
 scoreNumber = 0
 levelNumber = 1
                                 
@@ -144,7 +149,6 @@ while running:
         win.fill((0,0,0)) # filling window with black color behind the bg
         win.blit(bg, (0, i)) # setting the background with a moving height parameter
         win.blit(bg, (0, -winHeight +i)) # readding the picture a second time
-
         
         # changing the color of the car when the button is pressed
         if colorBtn.draw(win):
@@ -168,7 +172,7 @@ while running:
                 mixer.music.set_volume(0.4)
                 
 
-                
+        
         
         
         enemyDraw(enemy, enemy_x,enemy_y)
@@ -201,12 +205,58 @@ while running:
                 mixer.music.fadeout(2000)        
         
         # level change and difficulty increase
-        if enemy_y > y + 210 and not over:
+        
+        if enemy_y > y + 208:
                 scoreNumber += 1
 
-                if scoreNumber % 2 == 0: # if player passes 20 cars
-                        levelNumber += 1
-                        enemyY_change += 1     
+        if scoreNumber  == 15: # scoreNumber counts how many cars have been passed without crashing
+                levelNumber = 2 #2
+                enemyY_change = 13  
+                bgMove = 8
+        if scoreNumber == 30:
+                levelNumber = 3
+                enemyY_change = 14 
+        if scoreNumber == 45: 
+                levelNumber = 4
+                enemyY_change = 15 
+        if scoreNumber == 60: 
+                levelNumber = 5
+                enemyY_change = 16 
+        if scoreNumber == 75: 
+                levelNumber = 6
+                enemyY_change = 17 
+        if scoreNumber == 90: 
+                levelNumber = 7
+                enemyY_change = 18 
+        if scoreNumber == 105:
+                levelNumber = 8
+                enemyY_change = 19 
+        if scoreNumber == 120:
+                levelNumber = 9
+                enemyY_change = 20 
+        if scoreNumber ==  135:
+                gameWin = True
+
+                mixer.music.fadeout(2000)
+                mixer.Sound()
+                levelNumber = 10
+                enemyY_change = 21   
+                bgMove = 0
+                enemy_y = -1000
+                enemyY_change = 0
+                win.blit(endPic,(0,0))
+                
+
+        
+        # CPU play ---- uncomment this code to let the computer play perfectly -----
+        if enemy_x == 105:
+                x = 230
+        elif enemy_x == 230:
+                x = 355
+        elif enemy_x == 355:
+                x = 480
+        elif enemy_x == 480:
+                x = 105
 
         levelDisplay()
         scoreDisplay()
