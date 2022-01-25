@@ -18,6 +18,10 @@ bgImg = pygame.image.load("CarCrash/resources/background.png")
 bg = pygame.transform.scale(bgImg, (800,600))
 i = 0 # background coordinate Y (which is going to change with a loop)
 
+# Setting the app icon
+iconImg = pygame.image.load("CarCrash/resources/icon.png")
+pygame.display.set_icon(iconImg)
+
 # Button images
 startImg = pygame.image.load("CarCrash/resources/Start.png").convert_alpha()
 changeColorImg = pygame.image.load("CarCrash/resources/ChangeColor.png").convert_alpha()
@@ -295,7 +299,7 @@ while running:
                 win.blit(endPic,(0,0))
 
         
-        # CPU PLAY ---- uncomment this code to let the computer play perfectly -----
+        '''# CPU PLAY ---- uncomment this code to let the computer play perfectly -----
         if enemy_x == 105 and x == 105:
                 x = 230
         elif enemy_x == 230 and x == 230:
@@ -304,6 +308,7 @@ while running:
                 x = random.choice([480,230])
         elif enemy_x == 480 and x == 480:
                 x = 355
+'''
 
         levelDisplay(labelsGone)
         scoreDisplay(labelsGone)
