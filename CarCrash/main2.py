@@ -6,7 +6,7 @@ from pygame import mixer
 import time
 
 pygame.init()
-
+mixer.init()
 clock = pygame.time.Clock()
 
 winWidth = 800
@@ -75,6 +75,20 @@ def gameOverText():
         overText = overFont.render("GAME OVER", True, (0,0,0))
         win.blit(overText, (200,250))
 
+
+
+# Level text 
+level = pygame.font.Font("freesansbold.ttf", 25)
+def levelDisplay():
+        levelText = level.render("Level: "+str(levelNumber), True, (0,0,0))
+        win.blit(levelText, (4,10))
+
+# score text 
+score = pygame.font.Font("freesansbold.ttf", 25)
+def scoreDisplay():
+        scoreText = score.render("Score: "+str(scoreNumber), True, (0,0,0))
+        win.blit(scoreText, (4,70))
+
 # Collision 
 def isCollision(enemyX,enemyY,carX,carY):
         distance = math.sqrt(math.pow(enemyX - carX, 2) + math.pow(enemyY - carY,2))
@@ -96,15 +110,18 @@ enemy = random.choice(enemyImgRes) # random enemy car
 enemy_x = random.choice(enemyX_spawns) # random spawn x coordinate
 enemy_y = enemyY # fixed y spawn 
 
-enemy2 = random.choice(enemyImgRes)
-enemy2_x = random.choice(enemyX_spawns)
-enemy2_y = enemyY
 
 bgMove = 0 # how fast the background is running
 
+over = False
+scoreNumber = 0
+levelNumber = 1
+                                
+whoosh = mixer.Sound("CarCrash/resources/whoosh.wav")
+
 running = True 
 while running:
-
+        
         selectedCar = carsResized[car]
         
         for event in pygame.event.get():
@@ -112,10 +129,12 @@ while running:
                 if event.type == pygame.QUIT:
                         pygame.quit()
                         quit()
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN and not over:
                         if event.key == pygame.K_LEFT:
+                                whoosh.play()
                                 x -= 125
                         if event.key == pygame.K_RIGHT:
+                                whoosh.play()
                                 x += 125
                         if event.key == pygame.K_SPACE:
                                 horn = mixer.Sound("CarCrash/resources/Horn.wav")
@@ -144,8 +163,10 @@ while running:
                 startBtn.rect.topleft = (-100,-100)
                 colorBtn.rect.topleft = (-100,-100)
                 exitBtn.rect.topleft = (-100,-100)
-                mixer.music.load("CarCrash/resources/bgMusic.wav")
+                bgMusic = mixer.music.load("CarCrash/resources/bgMusic.wav")
                 mixer.music.play(-1)
+                mixer.music.set_volume(0.4)
+                
 
                 
         
@@ -153,19 +174,11 @@ while running:
         enemyDraw(enemy, enemy_x,enemy_y)
         enemy_y += enemyY_change #difficulty 
 
-        enemyDraw(enemy2, enemy2_x, enemy2_y)
-        enemy2_y += enemyY_change
-
         # restarting the enemy cars that go passed the player car
         if enemy_y > winHeight:
                 enemy_y = 0 - carHeight
                 enemy_x = random.choice(enemyX_spawns)
                 enemy = random.choice(enemyImgRes)
-        
-        if enemy2_y > winHeight:
-                enem2_y = 0 - carHeight
-                enemy2_x = random.choice(enemyX_spawns)
-                enemy2 = random.choice(enemyImgRes)
 
                                   
         win.blit(selectedCar, (x,y))
@@ -178,9 +191,25 @@ while running:
 
         if isCollision(enemy_x,enemy_y,x,y):
                 gameOverText()
+                if not over:
+                        crash = mixer.Sound("CarCrash/resources/crash.wav")
+                        crash.play()
+                
                 enemyY_change = 0
                 bgMove = 0
-                
+                over = True     
+                mixer.music.fadeout(2000)        
+        
+        # level change and difficulty increase
+        if enemy_y > y + 210 and not over:
+                scoreNumber += 1
+
+                if scoreNumber % 2 == 0: # if player passes 20 cars
+                        levelNumber += 1
+                        enemyY_change += 1     
+
+        levelDisplay()
+        scoreDisplay()
 
         if exitBtn.draw(win):
                 running = False
