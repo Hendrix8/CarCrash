@@ -224,6 +224,7 @@ while running:
                 gameOverText()
                 if not over:
                         crash = mixer.Sound("CarCrash/resources/crash.wav")
+                        crash.set_volume(0.6)
                         crash.play()
                 
                 enemyY_change = 0
@@ -235,6 +236,7 @@ while running:
                         over = False
                         enemy_x = random.choice(enemyX_spawns)
                         enemy_y = 0 - carHeight
+                        x = 230
                         scoreNumber = 0 
                         levelNumber = 1
                         mixer.music.play(-1)
