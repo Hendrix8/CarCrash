@@ -75,11 +75,10 @@ def enemyDraw(image, x, y):
         win.blit(image,(x,y))
 
 # game over text 
-overFont = pygame.font.Font("freesansbold.ttf", 64)
+overFont = pygame.font.Font("CarCrash/resources/gameFont.ttf", 64) 
 def gameOverText():
         overText = overFont.render("GAME OVER", True, (0,0,0))
         win.blit(overText, (200,250))
-
 
         
        
@@ -89,7 +88,7 @@ def gameOverText():
 
 
 # Level text 
-level = pygame.font.Font("freesansbold.ttf", 25)
+level = pygame.font.Font("CarCrash/resources/gameFont.ttf", 25)
 def levelDisplay(labelsGone):
         levelText = level.render("Level: "+str(levelNumber), True, (0,0,0))
         
@@ -99,7 +98,7 @@ def levelDisplay(labelsGone):
                 win.blit(levelText, (4,10))
 
 # score text 
-score = pygame.font.Font("freesansbold.ttf", 25)
+score = pygame.font.Font("CarCrash/resources/gameFont.ttf", 25)
 def scoreDisplay(labelsGone):
         scoreText = score.render("Score: "+str(scoreNumber), True, (0,0,0))
         
@@ -300,7 +299,7 @@ while running:
                 win.blit(endPic,(0,0))
 
         
-        # CPU PLAY ---- uncomment this code to let the computer play perfectly -----
+        '''# CPU PLAY ---- uncomment this code to let the computer play perfectly -----
         if enemy_x == 105 and x == 105:
                 x = 230
         elif enemy_x == 230 and x == 230:
@@ -308,7 +307,7 @@ while running:
         elif enemy_x == 355 and x == 355:
                 x = random.choice([480,230])
         elif enemy_x == 480 and x == 480:
-                x = 355
+                x = 355'''
 
 
         levelDisplay(labelsGone)
